@@ -9,8 +9,8 @@
 #ifndef DOWNLOAD_FILE_H
 #define DOWNLOAD_FILE_H
 
-#include <stdio.h>  // fopen(), fwrite(), fclose(), size_t
-#include <stdint.h> // integer types
+#include <stdio.h>
+#include <stdint.h>
 
 #define DATA_BLOCK_SIZE 3000000    // 3 MB
 

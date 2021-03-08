@@ -54,13 +54,20 @@ receive_file(int16_t socket_fd) {
     uint32_t    file_size;
     uint32_t    len_filename;
 
+    if (file_name == NULL) {
+        return -1;
+    }
     if (recv(socket_fd, &file_size, sizeof file_size, 0) == -1) {
-        return -1;   // receving file size
+        free(file_name);
+        return -1;
     } else if (recv(socket_fd, &len_filename, sizeof len_filename, 0) == -1) {
-        return -1;  // receiving file name length
+        free(file_name);
+        return -1;
     } else if (recv(socket_fd, file_name, len_filename, 0) == -1) {
-        return -1;  // receiving file name
+        free(file_name);
+        return -1;
     } else if (file_exists(file_name) == 1) {
+        free(file_name);
         return -1;
     }
     char    *file_buffer;
@@ -70,12 +77,16 @@ receive_file(int16_t socket_fd) {
         return -1;
     }
     file_buffer = calloc(DATA_BLOCK_SIZE, sizeof(char));
+    if (file_buffer == NULL) {
+        return -1;
+    }
     while (file_size > 0) {
         uint32_t    bytes_read = 0;
 
         bytes_read = recv_all_data(socket_fd,
                                    file_buffer,
                                    min(DATA_BLOCK_SIZE, file_size));
+        file_buffer[sizeof file_buffer - 1] = '\0';
         if (bytes_read == 0) {
             fclose(file);
             free(file_buffer);

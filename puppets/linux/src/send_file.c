@@ -72,9 +72,13 @@ send_file(int16_t socket_fd) {
                 break;
             }
             if (send_all_data(socket_fd, file_buffer, bytes_read) == 0) {
-                file_buffer = realloc(file_buffer,
+                void *tmp = realloc(file_buffer,
                                       strlen(file_buffer) +
                                       DATA_BLOCK_SIZE);
+                if (tmp == NULL) {
+                    return -1;
+                }
+                file_buffer = tmp;
                 file_size -= bytes_read;
             } else {
                 free(file_buffer);

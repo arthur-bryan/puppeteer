@@ -2,7 +2,7 @@
 /*
  * This header file belongs to https://github.com/arthur-bryan/puppeteer
  *
- * Methods to maintain the controll against the puppet
+ * Methods to maintain the control against the puppet
  *
  * Copyright (c) 2021 Arthur Bryan <arthurbryan2030@gmail.com>
  */
@@ -29,19 +29,21 @@
 uint8_t
 create_desktop_autostart(const char *executable_path) {
     struct passwd   *user;
-    FILE            *autorun_file;
     char            *file_path;
-    char            data[512] = { 0 };
 
     user = getpwuid(getuid());
     file_path = calloc(256, sizeof(char));
-    snprintf(file_path, strlen(file_path) + 1,
+    file_path[sizeof file_path - 1] = '\0';
+    snprintf(file_path, 256,
              "%s/.config/autostart/", user->pw_dir);
     if (!file_exists(file_path)) {
         return 0;
     }
     strcat(file_path, "puppeteer.desktop");
     if (!file_exists(file_path)) {
+        FILE    *autorun_file;
+        char    data[512] = { 0 };
+
         snprintf(data, sizeof data, "[Desktop Entry]\n"
                                     "Type=Application\n"
                                     "Name=Puppet\n"
@@ -55,6 +57,7 @@ create_desktop_autostart(const char *executable_path) {
         }
         if (fwrite(data, sizeof(char), strlen(data), autorun_file) !=
             strlen(data)) {
+            fclose(autorun_file);
             return 0;
         }
         fclose(autorun_file);

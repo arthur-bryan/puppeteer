@@ -1,5 +1,5 @@
 ![puppet](https://user-images.githubusercontent.com/34891953/108602305-11687a80-7380-11eb-971c-cf5c3b66bb5f.png)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c67853a2e7794106bf30e920c14fce45)](https://app.codacy.com/gh/arthur-bryan/puppeteer?utm_source=github.com&utm_medium=referral&utm_content=arthur-bryan/puppeteer&utm_campaign=Badge_Grade_Settings)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/c435ffb74d7547e3a3801baea4b88b8e)](https://www.codacy.com/gh/arthur-bryan/puppeteer/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=arthur-bryan/puppeteer&amp;utm_campaign=Badge_Grade)
 [![Open Source](https://img.shields.io/badge/Open%20Source-05C230?logo=Github&logoColor=white&link=https://github.com/arthur-bryan/pisco)](https://github.com/arthur-bryan/pisco)
 [![Status Badge](https://img.shields.io/badge/status-development-05C230)](https://github.com/arthur-bryan/puppeteer)
 [![GitHub License](https://img.shields.io/github/license/arthur-bryan/puppeteer?color=05C230)](https://github.com/arthur-bryan/puppeteer/blob/master/LICENSE.md)
@@ -39,7 +39,7 @@ make OUTPUT=linux32
 The compiled binaries will be stored at the `bin` folder
 
 ## :computer: Usage
-PS: Server IP Addres / Port are defined at `puppets/linux/include/sockets.h`
+PS: Server IP Address / Port are defined at `puppets/linux/include/sockets.h`
 
 Start the server
 ```sh
@@ -50,7 +50,7 @@ Wait or make an bot execute the compiled binary then starts interaction
 
 ![Demo](https://user-images.githubusercontent.com/34891953/110195368-6ba31a00-7e1b-11eb-8d04-af5bfdf6eb72.png)
 
-## :octocat: License
+## :copyright: License
 [MIT License](https://github.com/arthur-bryan/puppeteer/blob/master/LICENSE.md)
 
 ## :construction: In progress

@@ -7,7 +7,7 @@
 """
 
 import os
-from src.classes.puppeteer import Puppeteer
+from classes.puppeteer import Puppeteer
 from config import LISTEN_ADDRESS, LISTEN_PORT, DATABASE_PATH
 from config import to_green
 

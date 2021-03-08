@@ -29,17 +29,26 @@
 void
 start_communication(int16_t socket_fd, host_t host) {
     char    *command_buffer;
-    char    *str_command;
 
     while (1) {
         command_buffer = calloc(COMMAND_BUFFER_SIZE, sizeof(char));
         // receives the command
-        if (recv(socket_fd, command_buffer, COMMAND_BUFFER_SIZE, 0) < 1) {
+        if (recv(socket_fd, command_buffer, COMMAND_BUFFER_SIZE - 1, 0) < 1) {
             return;
         }
         // sets the original buffer size without losing its data
-        command_buffer = realloc(command_buffer, COMMAND_BUFFER_SIZE);
-        str_command = calloc(strlen(command_buffer) + 1, sizeof(char));
+        void    *tmp = realloc(command_buffer, COMMAND_BUFFER_SIZE);
+        if (tmp == NULL) {
+            break;
+        }
+        command_buffer = tmp;
+        command_buffer[COMMAND_BUFFER_SIZE-1] = '\0';
+        char    *str_command;
+
+        str_command = calloc(strlen(command_buffer)+1, sizeof(char));
+        if (str_command == NULL) {
+            break;
+        }
         // fills the str_command buffer
         for (size_t buffer_index = 0; buffer_index <= strlen(command_buffer);) {
             *(str_command + buffer_index) = command_buffer[buffer_index];
@@ -84,11 +93,15 @@ char
     FILE    *command_output;
 
     output_buffer = calloc(OUTPUT_BUFFER_SIZE, sizeof(char));
+    if (output_buffer == NULL) {
+        return "";
+    }
     command_output = popen(command, "r");
     if (command_output != NULL) {
         char bytes_read[OUTPUT_BUFFER_SIZE];
 
-        while (fgets(bytes_read, sizeof bytes_read, command_output) != NULL) {
+        while (fgets(bytes_read, sizeof bytes_read, command_output)
+               != NULL) {
             strcat(output_buffer, bytes_read);
         }
         pclose(command_output);

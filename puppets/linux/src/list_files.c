@@ -10,6 +10,7 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "../include/sockets.h"
 #include "../include/commands.h"
@@ -23,13 +24,12 @@
  */
 char
 *list_files(int16_t socket_fd) {
-    char    command[COMMAND_BUFFER_SIZE] = "ls -lah ";
-    char    stderr_redirect[13] = " 2>/dev/null";
+    char    command[COMMAND_BUFFER_SIZE] = { 0 };
     char    *path = calloc(COMMAND_BUFFER_SIZE, sizeof(char));
 
-    recv(socket_fd, path, COMMAND_BUFFER_SIZE, 0);
-    strcat(command, path);
-    strcat(command, stderr_redirect);
+    recv(socket_fd, path, COMMAND_BUFFER_SIZE - 1, 0);
+    path[COMMAND_BUFFER_SIZE-1] = '\0';
+    snprintf(command, COMMAND_BUFFER_SIZE, "ls -lah %s 2>/dev/null",  path);
     char    *command_output = execute_cmd(command);
     free(path);
     return command_output;

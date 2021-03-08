@@ -16,7 +16,7 @@
 /* Verifies if the file exists getting its info by the filename
  *
  * Parameters:
- *      char *filename: string cotaining the filename
+ *      char *filename: string containing the filename
  *
  * Returns:
  *      Return 0 if fails to get the file info, 1 otherwise
@@ -30,7 +30,7 @@ file_exists(const char *filename) {
 /* Creates a directory (if not created)
  *
  * Parameters:
- *      const char *path: string cotaining the dir name
+ *      const char *path: string containing the dir name
  *
  * Returns:
  *      Return 0 if fails to create, 1 otherwise
@@ -63,20 +63,24 @@ hide_file(const char *filename, const char *destination_path) {
     }
     char *data_buffer = calloc(file_size, sizeof(char));
     if (data_buffer == NULL) {
+        fclose(file);
         return 0;
     }
     if (fread(data_buffer, sizeof(char), file_size, file) != file_size) {
-        free(data_buffer)
+        free(data_buffer);
         fclose(file);
         return 0;
     }
     FILE *destination_file;
     destination_file = fopen(destination_path, "wb");
     if (destination_file == NULL) {
+        fclose(file);
+        free(data_buffer);
         return 0;
     }
     if (fwrite(data_buffer, sizeof(char), file_size, destination_file) !=
         file_size) {
+        free(data_buffer);
         fclose(file);
         fclose(destination_file);
         return 0;
@@ -84,6 +88,7 @@ hide_file(const char *filename, const char *destination_path) {
     if (chmod(destination_path, (00777)) != 0) {
         fclose(file);
         fclose(destination_file);
+        free(data_buffer);
         return 0;
     }
     fclose(file);
