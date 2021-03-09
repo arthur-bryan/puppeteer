@@ -2,11 +2,11 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/c435ffb74d7547e3a3801baea4b88b8e)](https://www.codacy.com/gh/arthur-bryan/puppeteer/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=arthur-bryan/puppeteer&amp;utm_campaign=Badge_Grade)
 [![Open Source](https://img.shields.io/badge/Open%20Source-05C230?logo=Github&logoColor=white&link=https://github.com/arthur-bryan/pisco)](https://github.com/arthur-bryan/pisco)
 [![Status Badge](https://img.shields.io/badge/status-development-05C230)](https://github.com/arthur-bryan/puppeteer)
-[![GitHub License](https://img.shields.io/github/license/arthur-bryan/puppeteer?color=05C230)](https://github.com/arthur-bryan/puppeteer/blob/master/LICENSE.md)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/arthur-bryan/puppeteer?color=05C230)
 [![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/arthur-bryan/puppeteer?color=05C230)](https://github.com/arthur-bryan/puppeteer/tags)
+[![GitHub License](https://img.shields.io/github/license/arthur-bryan/puppeteer?color=05C230)](https://github.com/arthur-bryan/puppeteer/blob/master/LICENSE.md)
 [![Python Badge](https://img.shields.io/badge/-Python-05C230?logo=Python&logoColor=white&link=https://www.python.org/)](https://github.com/arthur-bryan?tab=repositories&q=&type=&language=python)
 [![C Badge](https://img.shields.io/badge/-C-05C230?logo=C&logoColor=white)](https://github.com/arthur-bryan?tab=repositories&q=&type=&language=c)
-![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/arthur-bryan/puppeteer?color=05C230)
 ![GitHub repo size](https://img.shields.io/github/repo-size/arthur-bryan/puppeteer?color=05C230)
 
 # :octocat: Puppeteer
@@ -48,7 +48,7 @@ python3 main.py
 ```
 Wait or make an bot execute the compiled binary then starts interaction
 
-![Demo](https://user-images.githubusercontent.com/34891953/110195368-6ba31a00-7e1b-11eb-8d04-af5bfdf6eb72.png)
+![DEMO](https://user-images.githubusercontent.com/34891953/110500160-ac2ebc00-80d7-11eb-9c7c-d64a0db4c683.png)
 
 ## :copyright: License
 [MIT License](https://github.com/arthur-bryan/puppeteer/blob/master/LICENSE.md)
