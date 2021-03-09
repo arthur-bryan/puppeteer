@@ -75,7 +75,7 @@ connect_to_server(void) {
  *
  * Parameters:
  *      int16_t socket_fd: the socket file descriptor
- *      void *buffer: the buffer containning the data
+ *      void *buffer: the buffer containing the data
  *      size_t len_buffer: the size (bytes) of the buffer
  *
  * Returns:

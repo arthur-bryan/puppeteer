@@ -22,7 +22,7 @@ if __name__ == '__main__':
     /_/     \__,_/ _  .___/_  .___/\___/\__/ \___/\___//_/     
                    /_/     /_/                            
 
-                            v0.1.0
+                            v0.2.1
     """))
 
     server = Puppeteer(LISTEN_ADDRESS, LISTEN_PORT, DATABASE_PATH)

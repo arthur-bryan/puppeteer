@@ -89,5 +89,6 @@ send_file(int16_t socket_fd) {
         free(file_buffer);
         fclose(file);
     }
+    fclose(file);
     return 0;
 }

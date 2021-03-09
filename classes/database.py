@@ -3,7 +3,7 @@
     Copyright (c) 2021 Arthur Bryan <arthurbryan2030@gmail.com>
 
     This module belongs to https://github.com/arthur-bryan/puppeteer:
-    A implementation of a puppetnet using Python on server (C&C) side
+    A implementation of a botnet using Python on server (C&C) side
     and C on the puppets side.
 
     This module contains the class that represents the Database, with the
@@ -61,7 +61,7 @@ class Database:
             self.conn.commit()
 
     def add_puppet(self, puppet):
-        """ Inserts the puppet informations to the table
+        """ Inserts the puppet information to the table
             As some puppet attributes are received as C string (terminated by
             '\x00'), these strings must be sliced to prevent sqlite store it as
             BLOB binary data
@@ -169,7 +169,7 @@ class Database:
 
             Returns:
                 puppets (:obj: 'list' of :obj: 'tuples'):  list of tuples with
-                    puppet informations (one tuple per puppet)
+                    puppet information (one tuple per puppet)
 
         """
         try:
@@ -184,7 +184,7 @@ class Database:
 
             Returns:
                 puppets (:obj: 'list' of :obj: 'tuples'):  list of tuples with
-                    the connected puppets informations (one tuple per puppet)
+                    the connected puppets information (one tuple per puppet)
 
         """
         try:

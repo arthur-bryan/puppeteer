@@ -2,7 +2,7 @@
 /*
  * This header file belongs to https://github.com/arthur-bryan/puppeteer
  *
- * Runs shell command line without grabbing stdout/sterr
+ * Runs shell command line without grabbing stdout/stderr
  *
  * Copyright (c) 2021 Arthur Bryan <arthurbryan2030@gmail.com>
  */
@@ -16,9 +16,10 @@
 
 
 /*
- * Receive shell command from the server and runs it locally without grab stdo/e
+ * Receive shell command from the server and runs it locally without grab
+ * stdio/err
  *
- * Paramaters:
+ * Parameters:
  *      int16_t socket_fd:  the socket file descriptor
  */
 void

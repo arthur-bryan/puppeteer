@@ -10,7 +10,7 @@
     responsible methods for interacting with the server
 """
 
-from hashlib import md5
+from hashlib import sha512
 from datetime import datetime
 import os
 import socket
@@ -34,7 +34,7 @@ class Puppet:
         hostname (str):                 bot hostname
         username (str):                 bot logged in username
         last_connection (str):          date and time of the last connection
-        id_hash (str):                  bot hash identifier
+        id_hash (str):                  bot sha512 hash identifier
 
     """
 
@@ -97,7 +97,7 @@ class Puppet:
         string += self.op_system
         string += self.kernel_release
         string += self.hostname
-        self.id_hash = md5(string.encode()).hexdigest()
+        self.id_hash = sha512(string.encode()).hexdigest()
 
     def disconnect(self):
         """ Sets the bot connection status to 0 on database and closes the
