@@ -11,6 +11,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#ifdef _WIN32
+#include <winsock2.h>
+#endif
 
 #include "../include/sockets.h"
 #include "../include/commands.h"

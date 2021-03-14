@@ -10,6 +10,9 @@
 
 #include <stdlib.h>
 #include <string.h>
+#ifdef _WIN32
+#include <winsock2.h>
+#endif
 
 #include "../include/sockets.h"
 #include "../include/footprint.h"
@@ -57,10 +60,20 @@ receive_file(int16_t socket_fd) {
     if (file_name == NULL) {
         return -1;
     }
-    if (recv(socket_fd, &file_size, sizeof file_size, 0) == -1) {
+    #ifdef __unix__
+    ssize_t recv_filesize = recv(socket_fd, &file_size, sizeof file_size, 0);
+    ssize_t recv_len_filename = recv(socket_fd, &len_filename,
+                                     sizeof len_filename, 0);
+    #else
+    ssize_t recv_filesize = recv(socket_fd, (char *)&file_size,
+                                 sizeof file_size, 0);
+    ssize_t recv_len_filename = recv(socket_fd, (char *)&len_filename,
+                                     sizeof len_filename, 0);
+    #endif
+    if (recv_filesize == -1) {
         free(file_name);
         return -1;
-    } else if (recv(socket_fd, &len_filename, sizeof len_filename, 0) == -1) {
+    } else if (recv_len_filename == -1) {
         free(file_name);
         return -1;
     } else if (recv(socket_fd, file_name, len_filename, 0) == -1) {
@@ -86,7 +99,7 @@ receive_file(int16_t socket_fd) {
 
         bytes_read = recv_all_data(socket_fd,
                                    file_buffer,
-                                   min(DATA_BLOCK_SIZE, file_size));
+                                   minimum(DATA_BLOCK_SIZE, file_size));
         if (bytes_read == 0) {
             fclose(file);
             free(file_buffer);

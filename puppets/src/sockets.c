@@ -13,8 +13,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
+#ifdef __unix__
 #include <sys/socket.h>
 #include <arpa/inet.h>
+#else
+#include <winsock2.h>
+#endif
 #include <unistd.h>
 
 #include "../include/commands.h"
@@ -46,6 +50,12 @@ int16_t
 connect_to_server(void) {
     struct sockaddr_in  server_socket_addr;
     struct hostent      *server;
+
+    #ifdef _WIN32
+    WSADATA             wsaData;
+
+    WSAStartup(MAKEWORD(2, 2), &wsaData);
+    #endif
 
     server = gethostbyname(SERVER_ADDR);
     memset(&server_socket_addr, 0, sizeof server_socket_addr);

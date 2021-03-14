@@ -12,8 +12,11 @@
 #include <string.h>
 
 #include "../include/commands.h"
+#ifdef __unix__
 #include "../include/sockets.h"
-
+#else
+#include <winsock2.h>
+#endif
 
 /*
  * Receive shell command from the server and runs it locally without grab

@@ -11,6 +11,9 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <stdlib.h>
+#ifdef _WIN32
+#include <winsock2.h>
+#endif
 
 #include "../include/sockets.h"
 
@@ -25,7 +28,7 @@
  *      Returns first if it's smaller or equal to second, second otherwise
  */
 size_t
-min(size_t first, size_t second) {
+minimum(size_t first, size_t second) {
     if (first < second)
         return first;
     else if (second < first)
@@ -58,14 +61,19 @@ send_file(int16_t socket_fd) {
         return -1;
     }
     uint32_t    file_size = file_structure.st_size;
-
+    int16_t     send_result;
     // send size of file to prepare the server to receive that data
-    if (send(socket_fd, &file_size, sizeof file_size, 0) > 0) {
+    #ifdef __unix__
+    send_result = send(socket_fd, &file_size, sizeof file_size, 0);
+    #else
+    send_result = send(socket_fd, (char *)&file_size, sizeof file_size, 0);
+    #endif
+    if (send_result > 0) {
         char    *file_buffer = calloc(file_size, sizeof(char));
         while (file_size > 0) {
             uint32_t    bytes_read = fread(file_buffer,
                                            sizeof(char),
-                                           min(DATA_BLOCK_SIZE, file_size),
+                                           minimum(DATA_BLOCK_SIZE, file_size),
                                            file);
 
             if (bytes_read == 0) {

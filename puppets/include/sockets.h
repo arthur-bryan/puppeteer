@@ -13,7 +13,11 @@
 #define SERVER_ADDR "172.16.100.3"
 #define SERVER_PORT 1771
 
+#ifdef __unix__
 #include <netdb.h>
+#else
+#include <stdint.h>
+#endif
 
 int16_t
 create_socket(void);
