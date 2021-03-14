@@ -48,7 +48,7 @@ python3 main.py
 ```
 Wait or make an bot execute the compiled binary then starts interaction
 
-![DEMO](https://user-images.githubusercontent.com/34891953/110500160-ac2ebc00-80d7-11eb-9c7c-d64a0db4c683.png)
+![DEMO](https://user-images.githubusercontent.com/34891953/111054361-e0450c80-844a-11eb-9c40-1be541d4b2fc.png)
 
 ## :copyright: License
 [MIT License](https://github.com/arthur-bryan/puppeteer/blob/master/LICENSE.md)

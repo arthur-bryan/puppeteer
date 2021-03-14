@@ -46,6 +46,7 @@ get_host_info(void) {
     #ifdef __unix__
     user = getpwuid(getuid());
     snprintf(host.username, sizeof host.op_system, "%s", user->pw_name);
+    gethostname(host.hostname, sizeof host.hostname);
     #else
     struct w_utsname    host_info;
     char                username[20];
@@ -60,7 +61,7 @@ get_host_info(void) {
     snprintf(host.op_system, sizeof host.op_system, "%s", host_info.sysname);
     snprintf(host.architecture, sizeof host.op_system, "%s", host_info.machine);
     snprintf(host.release, sizeof host.op_system, "%s", host_info.release);
-    gethostname(host.hostname, sizeof host.hostname);
+    snprintf(host.hostname, sizeof host.hostname, "%s", host_info.nodename);
     host.autorun_enabled = 0;
     return host;
 }
