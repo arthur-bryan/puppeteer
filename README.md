@@ -1,4 +1,5 @@
 ![puppet](https://user-images.githubusercontent.com/34891953/108602305-11687a80-7380-11eb-971c-cf5c3b66bb5f.png)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a6eb06de1f214b5983112de326e45827)](https://app.codacy.com/gh/arthur-bryan/puppeteer?utm_source=github.com&utm_medium=referral&utm_content=arthur-bryan/puppeteer&utm_campaign=Badge_Grade_Settings)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/c435ffb74d7547e3a3801baea4b88b8e)](https://www.codacy.com/gh/arthur-bryan/puppeteer/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=arthur-bryan/puppeteer&amp;utm_campaign=Badge_Grade)
 [![Open Source](https://img.shields.io/badge/Open%20Source-05C230?logo=Github&logoColor=white&link=https://github.com/arthur-bryan/pisco)](https://github.com/arthur-bryan/pisco)
 [![Status Badge](https://img.shields.io/badge/status-development-05C230)](https://github.com/arthur-bryan/puppeteer)
