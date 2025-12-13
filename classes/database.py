@@ -12,6 +12,7 @@
 """
 
 import sqlite3
+import os
 from config import to_red
 
 
@@ -28,6 +29,7 @@ class Database:
         """
 
         try:
+            os.makedirs(os.path.dirname(filename), exist_ok=True)
             self.conn = sqlite3.connect(filename, check_same_thread=False)
             self.conn.row_factory = lambda cursor, row: row[0]
         except sqlite3.Error as error:

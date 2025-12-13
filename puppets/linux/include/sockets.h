@@ -10,7 +10,7 @@
  */
 #ifndef SOCKETS_H
 #define SOCKETS_H
-#define SERVER_ADDR "172.16.100.3"
+#define SERVER_ADDR "192.168.1.13"
 #define SERVER_PORT 1771
 
 #include <netdb.h>
