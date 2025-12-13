@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 
 /* Verifies if the file exists getting its info by the filename
@@ -37,17 +38,19 @@ file_exists(const char *filename) {
  */
 uint8_t
 create_dir(const char *path) {
-    return execl("/usr/bin/mkdir", "mkdir", "-p", path, NULL) != -1;
+    char    cmd[512];
+    snprintf(cmd, sizeof(cmd), "mkdir -p %s", path);
+    return system(cmd) == 0;
 }
 
-/* Copies the the file to the destination path
+/* Copies the file to the destination path
  *
  * Parameters:
  *      char *filename: the name of the file to be copied
  *      char *destination_path: the directory that the file will be copied to
  *
  * Returns:
- *      Return 1 if the file was copied, 1 otherwise
+ *      Return 1 if the file was copied, 0 otherwise
  */
 uint8_t
 hide_file(const char *filename, const char *destination_path) {

